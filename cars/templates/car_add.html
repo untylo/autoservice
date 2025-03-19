@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Добавить автомобиль{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Добавить автомобиль для {{ client.first_name }} {{ client.last_name }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="id_brand">Бренд:</label>
+            <div class="d-flex">
+                {{ form.brand }}
+                <a href="{% url 'brand_add' %}" class="btn btn-primary btn-sm ms-2">Добавить новый</a>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_model">Модель:</label>
+            <div class="d-flex">
+                {{ form.model }}
+                <a href="{% url 'model_add' brand_id=1 %}" id="add-model-btn" class="btn btn-primary btn-sm ms-2">Добавить новую</a>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_year">Год выпуска:</label>
+            {{ form.year }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_vin">VIN номер:</label>
+            {{ form.vin }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="{% url 'client_list' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#id_brand").change(function() {
+            var brandId = $(this).val();
+            $.ajax({
+                url: "{% url 'ajax_load_models' %}",
+                data: {'brand': brandId},
+                success: function(data) {
+                    $("#id_model").empty();
+                    $.each(data, function(index, item) {
+                        $("#id_model").append(new Option(item.name, item.id));
+                    });
+
+                    var addModelUrl = "{% url 'model_add' brand_id=1 %}".replace('1', brandId);
+                    $("#add-model-btn").attr("href", addModelUrl);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

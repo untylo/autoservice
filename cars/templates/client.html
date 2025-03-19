@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Клиенты{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Клиенты</h2>
+        <a href="{% url 'client_add' %}" class="btn btn-primary">Добавить клиента</a>
+    </div>
+    <ul class="list-group mt-3">
+        {% for client in clients %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><strong>{{ client.first_name }} {{ client.last_name }}</strong></span>
+                    <a href="{% url 'car_add' client.id %}" class="btn btn-success btn-sm">Добавить автомобиль</a>
+                </div>
+                {% if client.cars.all %}
+                    <ul class="list-group mt-2">
+                        {% for car in client.cars.all %}
+                            <li class="list-group-item">{{ car.model.name }} ({{ car.year }}) - {{ car.vin }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted">Нет автомобилей</p>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="list-group-item">Клиентов пока нет.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
