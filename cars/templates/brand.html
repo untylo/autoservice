@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Бренды{% endblock %}
+{% block title %}Brands{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="d-flex justify-content-between align-items-center">
-        <h2>Бренды автомобилей</h2>
-        <a href="{% url 'brand_add' %}" class="btn btn-primary">Добавить бренд</a>
+        <h2>Car Brands</h2>
+        <a href="{% url 'brand_add' %}" class="btn btn-primary">Add Brand</a>
     </div>
     <ul class="list-group mt-3">
         {% for brand in brands %}
             <li class="list-group-item">
                 <div class="d-flex justify-content-between align-items-center">
                     <span><strong>{{ brand.name }}</strong></span>
-                    <a href="{% url 'model_add' brand.id %}" class="btn btn-success btn-sm">Добавить модель</a>
+                    <a href="{% url 'model_add' brand.id %}" class="btn btn-success btn-sm">Add Model</a>
                 </div>
                 {% if brand.models.all %}
                     <ul class="list-group mt-2">
@@ -22,11 +22,11 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="text-muted">Нет моделей</p>
+                    <p class="text-muted">No models available</p>
                 {% endif %}
             </li>
         {% empty %}
-            <li class="list-group-item">Брендов пока нет.</li>
+            <li class="list-group-item">No brands available.</li>
         {% endfor %}
     </ul>
 </div>

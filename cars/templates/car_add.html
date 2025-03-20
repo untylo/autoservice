@@ -1,43 +1,43 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Добавить автомобиль{% endblock %}
+{% block title %}Add Car{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h2>Добавить автомобиль для {{ client.first_name }} {{ client.last_name }}</h2>
+    <h2>Add a Car for {{ client.first_name }} {{ client.last_name }}</h2>
 
     <form method="post">
         {% csrf_token %}
 
         <div class="mb-3">
-            <label for="id_brand">Бренд:</label>
+            <label for="id_brand">Brand:</label>
             <div class="d-flex">
                 {{ form.brand }}
-                <a href="{% url 'brand_add' %}" class="btn btn-primary btn-sm ms-2">Добавить новый</a>
+                <a href="{% url 'brand_add' %}" class="btn btn-primary btn-sm ms-2">Add New</a>
             </div>
         </div>
 
         <div class="mb-3">
-            <label for="id_model">Модель:</label>
+            <label for="id_model">Model:</label>
             <div class="d-flex">
                 {{ form.model }}
-                <a href="{% url 'model_add' brand_id=1 %}" id="add-model-btn" class="btn btn-primary btn-sm ms-2">Добавить новую</a>
+                <a href="{% url 'model_add' brand_id=1 %}" id="add-model-btn" class="btn btn-primary btn-sm ms-2">Add New</a>
             </div>
         </div>
 
         <div class="mb-3">
-            <label for="id_year">Год выпуска:</label>
+            <label for="id_year">Year:</label>
             {{ form.year }}
         </div>
 
         <div class="mb-3">
-            <label for="id_vin">VIN номер:</label>
+            <label for="id_vin">VIN Number:</label>
             {{ form.vin }}
         </div>
 
-        <button type="submit" class="btn btn-success">Сохранить</button>
-        <a href="{% url 'client_list' %}" class="btn btn-secondary">Отмена</a>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{% url 'client_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 

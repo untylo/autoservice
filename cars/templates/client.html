@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Клиенты{% endblock %}
+{% block title %}Clients{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="d-flex justify-content-between align-items-center">
-        <h2>Клиенты</h2>
-        <a href="{% url 'client_add' %}" class="btn btn-primary">Добавить клиента</a>
+        <h2>Clients</h2>
+        <a href="{% url 'client_add' %}" class="btn btn-primary">Add Client</a>
     </div>
     <ul class="list-group mt-3">
         {% for client in clients %}
             <li class="list-group-item">
                 <div class="d-flex justify-content-between align-items-center">
                     <span><strong>{{ client.first_name }} {{ client.last_name }}</strong></span>
-                    <a href="{% url 'car_add' client.id %}" class="btn btn-success btn-sm">Добавить автомобиль</a>
+                    <a href="{% url 'car_add' client.id %}" class="btn btn-success btn-sm">Add Car</a>
                 </div>
                 {% if client.cars.all %}
                     <ul class="list-group mt-2">
@@ -22,11 +22,11 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="text-muted">Нет автомобилей</p>
+                    <p class="text-muted">No cars available</p>
                 {% endif %}
             </li>
         {% empty %}
-            <li class="list-group-item">Клиентов пока нет.</li>
+            <li class="list-group-item">No clients available.</li>
         {% endfor %}
     </ul>
 </div>

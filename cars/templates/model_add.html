@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Добавить модель{% endblock %}
+{% block title %}Add Model{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h2>Добавить модель для {{ brand.name }}</h2>
+    <h2>Add Model for {{ brand.name }}</h2>
     <form method="post">
         {% csrf_token %}
         <div class="mb-3">
             {{ form.name.label_tag }}
             {{ form.name }}
         </div>
-        <button type="submit" class="btn btn-success">Сохранить</button>
-        <a href="{% url 'brand_list' %}" class="btn btn-secondary">Отмена</a>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{% url 'brand_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 {% endblock %}

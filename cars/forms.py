@@ -19,8 +19,8 @@ class ClientForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'address', 'phone']
 
 class CarForm(forms.ModelForm):
-    brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=True, label="Бренд")
-    model = forms.ModelChoiceField(queryset=CarModel.objects.none(), required=True, label="Модель")
+    brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=True, label="Brand")
+    model = forms.ModelChoiceField(queryset=CarModel.objects.none(), required=True, label="Model")
 
     class Meta:
         model = Car
