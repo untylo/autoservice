@@ -18,7 +18,7 @@
                 {% if client.cars.all %}
                     <ul class="list-group mt-2">
                         {% for car in client.cars.all %}
-                            <li class="list-group-item">{{ car.model.name }} ({{ car.year }}) - {{ car.vin }}</li>
+                            <li class="list-group-item">{{ car.model.brand.name }} {{ car.model.name }} ({{ car.year }}) - {{ car.vin }}</li>
                         {% endfor %}
                     </ul>
                 {% else %}
