@@ -28,7 +28,7 @@ class Car(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="cars")
     model = models.ForeignKey(CarModel, on_delete=models.CASCADE, related_name="cars")
     year = models.PositiveIntegerField(verbose_name="Year")
-    vin = models.CharField(max_length=17, unique=True, verbose_name="VIN number")
+    vin = models.CharField(max_length=17, unique=True, verbose_name="VIN Number")
 
     def __str__(self):
         return f"{self.model} ({self.year}) - {self.vin}"
@@ -55,25 +55,25 @@ class Inventory(models.Model):
     location = models.CharField(max_length=100, verbose_name="Location")
 
     def __str__(self):
-        return f"{self.part.name} - {self.quantity} шт."
+        return f"{self.part.name} - {self.quantity} pcs"
 
 class RepairOrder(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="repair_orders")
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="repair_orders")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    status = models.CharField(max_length=50, choices=[("open", "Открыт"), ("closed", "Закрыт")], default="open")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
+    status = models.CharField(max_length=50, choices=[("open", "Open"), ("closed", "Closed")], default="open")
     workers = models.ManyToManyField(User, related_name="repair_orders", verbose_name="Workers")
 
     def __str__(self):
-        return f"Заказ {self.id} - {self.car}"
+        return f"Order {self.id} - {self.car}"
 
 class RepairOrderPhoto(models.Model):
     repair_order = models.ForeignKey(RepairOrder, on_delete=models.CASCADE, related_name="photos")
     image = models.ImageField(upload_to="repair_photos/", verbose_name="Photo")
-    before_repair = models.BooleanField(default=True, verbose_name="Photo Before")
+    before_repair = models.BooleanField(default=True, verbose_name="Before Repair")
 
     def __str__(self):
-        return f"Фото {self.id} для заказа {self.repair_order.id}"
+        return f"Photo {self.id} for Order {self.repair_order.id}"
 
 class Service(models.Model):
     name = models.CharField(max_length=100, verbose_name="Service")
@@ -100,13 +100,13 @@ class RepairOrderPart(models.Model):
 
 class Invoice(models.Model):
     repair_order = models.ForeignKey(RepairOrder, on_delete=models.CASCADE, related_name="invoices")
-    issued_at = models.DateTimeField(auto_now_add=True, verbose_name="Issued at")
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Total amount")
+    issued_at = models.DateTimeField(auto_now_add=True, verbose_name="Issued At")
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Total Amount")
 
     def __str__(self):
-        return f"Инвойс {self.id} - {self.total_amount} CAD"
+        return f"Invoice {self.id} - {self.total_amount} CAD"
 
-# Регистрация моделей в админке
+# Register models in the Django admin panel
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ("name",)
