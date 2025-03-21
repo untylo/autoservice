@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Cars{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Cars</h2>
+
+    <!-- Search input -->
+    <input type="text" id="search" class="form-control mb-3" placeholder="Search...">
+
+    <!-- Container for the table -->
+    <div id="car-table-container">
+        {% include "partials/car_table.html" %}
+    </div>
+
+    <!-- Pagination -->
+    <nav id="pagination">
+        {% include "partials/pagination.html" %}
+    </nav>
+</div>
+
+<!-- JavaScript for AJAX Filtering -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $("#search").on("keyup", function() {
+        let query = $(this).val().trim();
+
+        if (query.length >= 3 || query.length === 0) {
+            $.ajax({
+                url: "{% url 'car_list_ajax' %}",
+                data: {q: query},
+                success: function(data) {
+                    $("#car-table-container").html(data.table_html);
+                    $("#pagination").html(data.pagination_html);
+                }
+            });
+        }
+    });
+});
+</script>
+{% endblock %}

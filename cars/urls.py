@@ -9,4 +9,6 @@ urlpatterns = [
     path('clients/add/', client_add, name='client_add'),
     path('clients/<int:client_id>/add-car/', car_add, name='car_add'),
     path('ajax/load-models/', load_models, name='ajax_load_models'),
+    path("cars/", car_list, name="car_list"),
+    path("cars/ajax/", car_list, name="car_list_ajax"),  # AJAX filtering
     ]

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
 from .models import *
 from .forms import *
@@ -66,4 +67,33 @@ def load_models(request):
     models = CarModel.objects.filter(brand_id=brand_id).values('id', 'name')
     return JsonResponse(list(models), safe=False)
 
+def car_list(request):
+    query = request.GET.get("q", "").strip()
+    
+    cars = Car.objects.select_related("model__brand", "client").all()
+    
+    if query:
+        cars = cars.filter(
+            model__name__icontains=query
+        ) | cars.filter(
+            model__brand__name__icontains=query
+        ) | cars.filter(
+            vin__icontains=query
+        ) | cars.filter(
+            client__first_name__icontains=query
+        ) | cars.filter(
+            client__last_name__icontains=query
+        ) | cars.filter(
+            client__phone__icontains=query
+        )
 
+    paginator = Paginator(cars, 15)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        table_html = render(request, "partials/car_table.html", {"page_obj": page_obj}).content.decode("utf-8")
+        pagination_html = render(request, "partials/pagination.html", {"page_obj": page_obj}).content.decode("utf-8")
+        return JsonResponse({"table_html": table_html, "pagination_html": pagination_html})
+
+    return render(request, "car_list.html", {"page_obj": page_obj, "query": query})
